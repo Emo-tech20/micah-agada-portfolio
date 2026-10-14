@@ -195,9 +195,104 @@ phoneLinks.forEach(link => {
 });
 
 // ====================================
-// LOADING STATE
+// DARK/LIGHT MODE TOGGLE
 // ====================================
 
-window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
+const themeToggle = document.getElementById('themeToggle');
+const htmlElement = document.documentElement;
+const body = document.body;
+
+// Check for saved theme preference or system preference
+const initTheme = () => {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+    
+    if (isDark) {
+        body.classList.remove('light-mode');
+    } else {
+        body.classList.add('light-mode');
+    }
+};
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
 });
+
+// Toggle theme
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    const isDark = !body.classList.contains('light-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (e.matches) {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+// ====================================
+// 3D TILT EFFECT FOR CARDS
+// ====================================
+
+const cards = document.querySelectorAll(
+    '.service-card, .project-card, .contact-item, .stat, .case-study'
+);
+
+// Check if user prefers reduced motion
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        if (prefersReducedMotion) return;
+        
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        // Apply transform
+        card.style.transform = `
+            perspective(1200px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateZ(20px)
+            ${card.classList.contains('contact-item') ? 'translateY(-12px)' : 
+              card.classList.contains('project-card') ? 'translateY(-16px)' : 
+              'translateY(-12px)'}
+        `;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
+
+// ====================================
+// TOUCH-FRIENDLY 3D (DISABLE TILT ON TOUCH DEVICES)
+// ====================================
+
+let isTouchDevice = () => {
+    return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+};
+
+if (isTouchDevice()) {
+    cards.forEach(card => {
+        card.style.cursor = 'pointer';
+    });
+}

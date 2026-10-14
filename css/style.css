@@ -9,7 +9,7 @@
    ==================================== */
 
 :root {
-    /* Futuristic Neon Color Palette */
+    /* Dark Mode (Default) */
     --primary-accent: #FF4D00;
     --accent-glow: rgba(255, 77, 0, 0.5);
     --accent-hover: #FF6B20;
@@ -22,6 +22,21 @@
     --dark-text: #F7F5F0;
     --borders: #2A2A2A;
     --subtle-text: #8B8880;
+    
+    /* Light Mode */
+    --light-background: #F7F5F0;
+    --light-text-primary: #171717;
+    --light-text-secondary: #5C5955;
+    --light-card-bg: #FFFFFF;
+    --light-borders: #E8E6E1;
+    --light-subtle: #D4D1CA;
+    
+    /* 3D Card System */
+    --card-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --card-shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --card-shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.25);
+    --card-shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.35);
+    --card-glow: 0 0 30px rgba(255, 77, 0, 0.3);
     
     /* Transition */
     --transition: 0.3s ease;
@@ -60,6 +75,30 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+}
+
+/* ====================================
+   LIGHT MODE
+   ==================================== */
+
+body.light-mode {
+    --background: var(--light-background);
+    --text-primary: var(--light-text-primary);
+    --text-secondary: var(--light-text-secondary);
+    --card-bg: var(--light-card-bg);
+    --borders: var(--light-borders);
+    --subtle-text: var(--light-subtle);
+    --dark-bg: #F0EEEA;
+    --card-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --card-shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --card-shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --card-shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode {
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 77, 0, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 77, 0, 0.01) 0%, transparent 50%);
 }
 
 /* ====================================
@@ -210,6 +249,59 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--borders);
+    color: var(--text-primary);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    position: relative;
+    margin-right: 1rem;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 15px rgba(255, 77, 0, 0.3);
+}
+
+.theme-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: opacity var(--transition), transform var(--transition);
+    position: absolute;
+}
+
+.theme-icon.sun-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-icon.moon-icon {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.8);
+}
+
+body.light-mode .theme-icon.sun-icon {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.8);
+}
+
+body.light-mode .theme-icon.moon-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
 }
 
 .nav-logo a {
@@ -601,6 +693,34 @@ p {
     padding: 1.5rem;
     background: linear-gradient(135deg, rgba(255, 77, 0, 0.05) 0%, transparent 100%);
     border: 1px solid rgba(255, 77, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow-light);
+    transition: all var(--transition);
+}
+
+.stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.stat:hover {
+    transform: translateY(-10px) translateZ(20px);
+    border-color: var(--primary-accent);
+    box-shadow: var(--card-shadow-deep), var(--card-glow);
+    background: linear-gradient(135deg, rgba(255, 77, 0, 0.1) 0%, rgba(255, 77, 0, 0.05) 100%);
+}
+
+.stat:hover::before {
+    opacity: 1;
 }
 
 .stat h3 {
@@ -643,6 +763,32 @@ p {
     transition: all var(--transition);
     animation: fadeInUp 0.6s ease-out forwards;
     opacity: 0;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow-light);
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.service-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 77, 0, 0.1), transparent 50%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
 }
 
 .service-card:nth-child(1) { animation-delay: 0.1s; }
@@ -655,8 +801,16 @@ p {
 .service-card:hover {
     background: linear-gradient(135deg, rgba(255, 77, 0, 0.15) 0%, rgba(255, 77, 0, 0.05) 100%);
     border-color: var(--primary-accent);
-    transform: translateY(-8px);
-    box-shadow: 0 0 30px rgba(255, 77, 0, 0.3), inset 0 0 15px rgba(255, 77, 0, 0.1);
+    transform: translateY(-12px) translateZ(20px);
+    box-shadow: var(--card-shadow-hover), var(--card-glow);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card:hover::after {
+    opacity: 1;
 }
 
 .service-card h3 {
@@ -698,6 +852,22 @@ p {
     animation: fadeInUp 0.6s ease-out forwards;
     opacity: 0;
     background-color: var(--card-bg);
+    transform-style: preserve-3d;
+    position: relative;
+    box-shadow: var(--card-shadow-medium);
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 77, 0, 0.2) 0%, 
+        transparent 50%, 
+        rgba(255, 77, 0, 0.1) 100%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    z-index: 1;
 }
 
 .project-card:nth-child(1) { animation-delay: 0.1s; }
@@ -706,9 +876,13 @@ p {
 .project-card:nth-child(4) { animation-delay: 0.4s; }
 
 .project-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-16px) translateZ(30px);
     border-color: var(--primary-accent);
-    box-shadow: 0 15px 40px rgba(255, 77, 0, 0.2), 0 0 30px rgba(255, 77, 0, 0.15);
+    box-shadow: var(--card-shadow-hover), var(--card-glow);
+}
+
+.project-card:hover::before {
+    opacity: 1;
 }
 
 .project-image {
@@ -786,12 +960,41 @@ p {
     padding-bottom: 4rem;
     border-bottom: 1px solid var(--borders);
     animation: fadeInUp 0.8s ease-out;
+    position: relative;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(255, 77, 0, 0.03) 0%, transparent 100%);
+    border: 2px solid var(--borders);
+    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow-medium);
+    transition: all var(--transition);
+}
+
+.case-study::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 77, 0, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
+    border-radius: 0;
+}
+
+.case-study:hover {
+    transform: translateY(-12px) translateZ(25px);
+    border-color: var(--primary-accent);
+    box-shadow: var(--card-shadow-hover), var(--card-glow);
+    background: linear-gradient(135deg, rgba(255, 77, 0, 0.08) 0%, rgba(255, 77, 0, 0.02) 100%);
+}
+
+.case-study:hover::before {
+    opacity: 1;
 }
 
 .case-study:last-child {
     border-bottom: none;
     margin-bottom: 0;
-    padding-bottom: 0;
+    padding-bottom: 2.5rem;
 }
 
 .case-study-content h3 {
@@ -820,6 +1023,28 @@ p {
     letter-spacing: 0.05em;
     font-weight: 600;
     box-shadow: 0 0 15px rgba(255, 77, 0, 0.3);
+    transition: all var(--transition);
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.meta-tag::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.meta-tag:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 77, 0, 0.5);
+}
+
+.meta-tag:hover::before {
+    opacity: 1;
 }
 
 .case-section {
@@ -873,10 +1098,40 @@ p {
     margin-bottom: 3rem;
     animation: fadeInUp 0.6s ease-out forwards;
     opacity: 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 77, 0, 0.03) 0%, transparent 100%);
+    border: 1px solid var(--borders);
+    border-left: 3px solid var(--primary-accent);
+    position: relative;
+    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow-light);
+    transition: all var(--transition);
+}
+
+.experience-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 0;
+    background: linear-gradient(to bottom, var(--primary-accent), transparent);
+    transition: height var(--transition);
 }
 
 .experience-item:nth-child(1) { animation-delay: 0.1s; }
 .experience-item:nth-child(2) { animation-delay: 0.2s; }
+
+.experience-item:hover {
+    transform: translateY(-8px) translateZ(20px);
+    box-shadow: var(--card-shadow-deep), var(--card-glow);
+    background: linear-gradient(135deg, rgba(255, 77, 0, 0.08) 0%, rgba(255, 77, 0, 0.02) 100%);
+    border-color: var(--primary-accent);
+}
+
+.experience-item:hover::before {
+    height: 100%;
+}
 
 .experience-marker {
     width: 20px;
@@ -970,13 +1225,34 @@ p {
     background: linear-gradient(135deg, rgba(255, 77, 0, 0.05) 0%, transparent 100%);
     border: 2px solid var(--borders);
     transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow-light);
+}
+
+.contact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 77, 0, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
 }
 
 .contact-item:hover {
     background: linear-gradient(135deg, rgba(255, 77, 0, 0.15) 0%, rgba(255, 77, 0, 0.05) 100%);
     border-color: var(--primary-accent);
-    box-shadow: 0 0 30px rgba(255, 77, 0, 0.3), inset 0 0 15px rgba(255, 77, 0, 0.1);
-    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover), var(--card-glow);
+    transform: translateY(-12px) translateZ(25px);
+}
+
+.contact-item:hover::before {
+    opacity: 1;
 }
 
 .contact-item h3 {
@@ -1146,6 +1422,12 @@ p {
         font-size: 0.75rem;
     }
 
+    .theme-toggle {
+        margin-right: 0.5rem;
+        width: 40px;
+        height: 40px;
+    }
+
     .nav-toggle {
         display: flex;
     }
@@ -1228,6 +1510,25 @@ p {
         flex-direction: column;
         gap: 1rem;
     }
+
+    /* Disable 3D tilt on mobile for better touch performance */
+    .service-card,
+    .project-card,
+    .contact-item,
+    .stat,
+    .case-study,
+    .experience-item {
+        perspective: none;
+    }
+
+    .service-card:hover,
+    .project-card:hover,
+    .contact-item:hover,
+    .stat:hover,
+    .case-study:hover,
+    .experience-item:hover {
+        transform: translateY(-8px) !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1237,6 +1538,17 @@ p {
 
     .nav-logo a {
         font-size: 1.2rem;
+    }
+
+    .theme-toggle {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.25rem;
+    }
+
+    .theme-icon {
+        width: 20px;
+        height: 20px;
     }
 
     .hero-container {
@@ -1283,7 +1595,9 @@ p {
     }
 
     .service-card,
-    .contact-item {
+    .contact-item,
+    .stat,
+    .case-study {
         padding: 1.5rem;
     }
 
@@ -1307,6 +1621,7 @@ p {
     .experience-item {
         grid-template-columns: 40px 1fr;
         gap: 1rem;
+        padding: 1rem;
     }
 
     .experience-marker {
@@ -1316,5 +1631,15 @@ p {
 
     .case-study-content h3 {
         font-size: 1.5rem;
+    }
+
+    /* Ensure no 3D overflow on extra small screens */
+    .service-card,
+    .project-card,
+    .contact-item,
+    .stat,
+    .case-study,
+    .experience-item {
+        overflow: hidden;
     }
 }
