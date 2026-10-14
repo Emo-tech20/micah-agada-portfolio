@@ -457,6 +457,7 @@ body.light-mode .theme-icon.moon-icon {
     padding: 4rem 2rem;
     background-color: var(--background);
     position: relative;
+    overflow: visible;
 }
 
 .hero-container {
@@ -466,6 +467,7 @@ body.light-mode .theme-icon.moon-icon {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    overflow: visible;
 }
 
 .hero-text {
@@ -524,6 +526,7 @@ body.light-mode .theme-icon.moon-icon {
     align-items: center;
     justify-content: center;
     animation: fadeInRight 0.8s ease-out;
+    overflow: visible;
 }
 
 /* Portrait Container with Orbiting Skills */
@@ -533,6 +536,10 @@ body.light-mode .theme-icon.moon-icon {
     max-width: 500px;
     aspect-ratio: 3/4;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
 }
 
 .portrait-image {
@@ -541,6 +548,7 @@ body.light-mode .theme-icon.moon-icon {
     object-fit: cover;
     object-position: center;
     border: 3px solid var(--primary-accent);
+    border-radius: 50%;
     box-shadow: 
         0 0 30px rgba(255, 77, 0, 0.4),
         inset 0 0 20px rgba(255, 77, 0, 0.1),
@@ -578,9 +586,10 @@ body.light-mode .theme-icon.moon-icon {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150%;
-    height: 150%;
+    width: 180%;
+    height: 180%;
     z-index: 8;
+    pointer-events: none;
 }
 
 .orbit-item {
