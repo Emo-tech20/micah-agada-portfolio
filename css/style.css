@@ -719,13 +719,15 @@ body.light-mode .theme-icon.moon-icon {
 
 .about-container {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr;
     gap: 4rem;
     align-items: start;
+    text-align: center;
 }
 
 .about-image {
     animation: fadeInLeft 0.8s ease-out;
+    display: none;
 }
 
 .image-placeholder {
@@ -767,12 +769,15 @@ body.light-mode .theme-icon.moon-icon {
 
 .about-content {
     animation: fadeInRight 0.8s ease-out;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .about-content .section-title {
     margin-bottom: 2rem;
     color: var(--text-primary);
     text-shadow: 0 0 20px rgba(255, 77, 0, 0.2);
+    text-align: center;
 }
 
 .about-text {
@@ -780,6 +785,7 @@ body.light-mode .theme-icon.moon-icon {
     line-height: 1.8;
     margin-bottom: 1.5rem;
     color: var(--text-secondary);
+    text-align: center;
 }
 
 .about-stats {
@@ -789,6 +795,9 @@ body.light-mode .theme-icon.moon-icon {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 2px solid var(--borders);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .stat {
