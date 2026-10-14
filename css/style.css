@@ -340,6 +340,45 @@ body.light-mode .theme-icon.moon-icon {
     color: var(--text-primary);
     text-transform: uppercase;
     font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all var(--transition);
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.logo-mark {
+    width: 40px;
+    height: 40px;
+    color: var(--primary-accent);
+    transition: all var(--transition);
+    filter: drop-shadow(0 0 8px rgba(255, 77, 0, 0.3));
+}
+
+.logo-link:hover .logo-mark {
+    color: var(--accent-hover);
+    filter: drop-shadow(0 0 15px rgba(255, 77, 0, 0.6));
+    transform: scale(1.1);
+}
+
+.logo-text {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    transition: color var(--transition);
+}
+
+.logo-link:hover .logo-text {
+    color: var(--primary-accent);
+    text-shadow: 0 0 10px rgba(255, 77, 0, 0.4);
 }
 
 .nav-menu {
