@@ -1,4 +1,41 @@
 // ====================================
+// PORTRAIT IMAGE UPLOAD
+// ====================================
+
+const portraitImage = document.getElementById('portraitImage');
+const portraitUpload = document.getElementById('portraitUpload');
+const uploadPortraitBtn = document.getElementById('uploadPortraitBtn');
+
+// Trigger file input when button is clicked
+uploadPortraitBtn.addEventListener('click', () => {
+    portraitUpload.click();
+});
+
+// Handle file selection
+portraitUpload.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            portraitImage.src = event.target.result;
+            portraitImage.style.objectFit = 'cover';
+            // Store in localStorage so it persists
+            localStorage.setItem('portraitImage', event.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Load portrait from localStorage on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedPortrait = localStorage.getItem('portraitImage');
+    if (savedPortrait) {
+        portraitImage.src = savedPortrait;
+        portraitImage.style.objectFit = 'cover';
+    }
+});
+
+// ====================================
 // MOBILE MENU TOGGLE
 // ====================================
 
@@ -92,7 +129,7 @@ window.addEventListener('scroll', () => {
     navItems.forEach(item => {
         item.style.color = '';
         if (item.getAttribute('href').slice(1) === current) {
-            item.style.color = 'var(--accent-grey)';
+            item.style.color = 'var(--primary-accent)';
         }
     });
 });
@@ -116,7 +153,7 @@ document.addEventListener('keydown', (e) => {
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(btn => {
     btn.addEventListener('focus', function() {
-        this.style.outline = '2px solid var(--accent-grey)';
+        this.style.outline = '2px solid var(--primary-accent)';
         this.style.outlineOffset = '2px';
     });
     
@@ -132,7 +169,7 @@ buttons.forEach(btn => {
 const links = document.querySelectorAll('a');
 links.forEach(link => {
     link.addEventListener('focus', function() {
-        this.style.outline = '2px solid var(--accent-grey)';
+        this.style.outline = '2px solid var(--primary-accent)';
         this.style.outlineOffset = '2px';
     });
     
